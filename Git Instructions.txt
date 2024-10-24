@@ -1,0 +1,7 @@
+1. Clone code
+	git clone link_HTTPS
+2. Step to push code
+	git status
+	git add (. or file name)
+	git commit -m "comment"
+	git push origin branch_name
