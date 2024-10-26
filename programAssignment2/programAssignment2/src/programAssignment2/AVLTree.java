@@ -1,218 +1,172 @@
+import java.io.BufferedReader;
 
-public class AVLTree {
-	
-	public static class Node {
-		int orderID;
-		String name;
-		Node left;
-		Node right;
-		int height;
-		
-		public Node(int orderID,String name) {
-			this.height = 1;
-			this.name = name;
-			this.left = null;
-			this.right = null;
-			this.orderID = orderID;
-		}
-	}
-	Node Root;
-	
-	private int height(Node node) {
-		if (node == null) {
-			return 0;
-		}
-		else{
-			return node.height;	
-		}
-	}
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
-	
-	public int updateHeight(Node node) {
-		if (node == null) {
-			return -1;	
-		}
-		else {
-			node.height = 1+ Math.max(updateHeight(node.left),updateHeight(node.right));
-		}
-		return node.height;
-	}
-	
-	private Node rightRotation(Node node) {
-		Node y = node.left;
-		Node temp = y.right;
-		y.right = node;
-		node.left = temp;
-		updateHeight(node);
-		updateHeight(y);
+
+public class BookOrder {
+
+	public static void main(String [] args) throws FileNotFoundException {
 		
-		return y;
-	}
-	
-	private Node leftRotation(Node node) {
-		Node y = node.right;
-		Node temp = y.left;
-		y.left = node;
-		node.right = temp;
-		updateHeight(node);
-		updateHeight(y);
+		String excelSheet = "orders.csv";
+		String line = "";
+		BufferedReader reader = null;
+		AVLTree AVLTree = new AVLTree();
 		
-		return y;
-	}
-	
-	private Node balanceTree(Node root) {
-		int balancingFactor = calcBF(root);
+		Scanner scanner = new Scanner(System.in);
 		
-		if (balancingFactor < -1) {
-			if (calcBF(root.right) > 0) {
-				root.right = rightRotation(root.right);
-			}
-			return leftRotation(root);
-		}
 		
-		if (balancingFactor > 1) {
-			if (calcBF(root.left) < 0) {
-				root.left = leftRotation(root.left);
-			}
-			return rightRotation(root);
-		}
-		return root;
-	}
-	
-	private int calcBF(Node node) {
-		if(node == null) {
-			return 0;
-		}
-		else {
-			return height(node.left) - height(node.right);
-		}
-	}
-	
-	private  Node insert(Node root, int orderID, String name) {
-		 if (root == null) {
-	         return new Node(orderID,name) ;
-		 }    
-	       else if(orderID < root.orderID) {
-			root.left = insert(root.left,orderID,name);
-	     }
-	       else if(orderID > root.orderID){
-			root.right = insert(root.right,orderID,name);
-		}else {
-			System.out.println("OrderID alredy exists.");
-			return root;
-		}
-		updateHeight(root);
-		return balanceTree(root);
-	}
-	
-	public void insert(int orderID, String name) {
-		Root = insert(Root, orderID, name);
-	}
-	
-	 public void InOrder(Node root){
-	        if(root == null){
-	            return;
-	        }
-	        InOrder(root.left);
-	        System.out.println("(OrderID: " + root.orderID+") "+ "Book Name: "+ root.name );
-	        InOrder(root.right);
-	 }
-	
-	public void InOrder() {
-		InOrder(Root);
-	} 
-	
-	public Node search(Node node, int orderID) {
-		if(node == null || node.orderID == orderID) {
-			return node;
-		}
-		
-		if(orderID < node.orderID) {
-			return search(node.left,orderID);
-		}
-		return search(node.right,orderID);
-	}
-	
-	public Node findMin(Node node) {
-		Node current = node;
-		while(current.left != null) {
-			current = current.left;
-		}
-		return current;
-	}
-	
-	public Node findMax(Node node) {
-		Node current = node;
-		while(current.right != null) {
-			current = current.right;
-		}
-		return current;
-	}
-	
-	private Node remove(Node node, int orderID) {
-		if(node == null) {
-			System.out.println("The Order doesn't exist.");
-			return node;
-		}
-		
-		if (orderID < node.orderID) {
-			node.left = remove(node.left,orderID);
-		}else if(orderID > node.orderID) {
-			node.right = remove(node.right,orderID);
-		}else {
-			if(node.left == null || node.right == null) {
+		try {
+			reader = new BufferedReader(new FileReader(excelSheet));
+			while((line = reader.readLine()) != null){
+				String[] row = line.split(",");
 				
-				Node temp;
-				
-				if(node.left != null) {
-					temp = node.left;
-				}else {
-					temp = node.right;
+				try {
+					int orderID = Integer.parseInt(row[0]);
+					String name = row[1];
+					AVLTree.insert(orderID,name);
+					}
+				catch(Exception e) {}
 				}
-				
-				if(temp == null) {
-					node = null;
-					
-				}else {
-					node = temp;
-				}
-				
-		}else {
-			Node temp = findMin(node.right);
 			
-			node.orderID = temp.orderID;
-			node.name = temp.name;
-			node.right = remove(node.right,temp.orderID);
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("WELCOME to your bookstore program!! Your AVLTree is created from your orders.csv file. What would you like to do?: ");
+		
+		while(true) {
+			printChoices();
+			int input= 0;
+			
+			boolean isInt = false;
+			
+			while(isInt == false){
+				if(scanner.hasNextInt()){
+					input = scanner.nextInt();
+					isInt = true;
+				}
+				else {
+				scanner.next();
+				break;
+				}
+			}		
+			
+			
+			switch(input) {
+			case 1:
+				System.out.println("What is the OrderID? (Can't be a number below 0 or above 1000)");
+				String number = scanner.next();
+				if(isInt(number) == true) {
+					scanner.nextLine();
+					System.out.println("What is the Name of the Book? (100 character limit)");
+					String title = scanner.nextLine();
+					if(title.length()<=100 && title.length()>0) {
+						AVLTree.insert(Integer.parseInt(number), title);
+						System.out.println("Action Completed.");
+					}else {
+						System.out.println("Invalid Character Count.");
+					}
+				}else {
+					System.out.println("OrderID is not valid.");
+				}
+				break;
+				
+			case 2:
+				System.out.println("Enter OrderID to remove: (Can't be a number below 0 or above 1000)");
+				String removeID = scanner.next();
+				if(isInt(removeID) == true) {
+					AVLTree.remove(Integer.parseInt(removeID));
+					System.out.println("Action Completed.");
+				}else {
+					System.out.println("OrderID is not valid.");
+				}
+					break;
+			
+			case 3:
+				AVLTree.InOrder();
+				break;
+				
+			case 4:
+				System.out.println("Enter OrderID to search: (Can't be a number below 0 or above 1000)");
+				String searchID = scanner.next();
+				if(isInt(searchID) == true) {	
+					AVLTree.Node node= AVLTree.search(AVLTree.Root, Integer.parseInt(searchID));
+					if(node == null) {
+						System.out.println("Order was not found.");
+					}else {
+						System.out.println("Order "+node.orderID+" was found: "+ node.name);
+					}
+				}else {
+					System.out.println("OrderID is not valid.");
+				}
+				break;
+				
+			case 5:
+				AVLTree.Node oldest = AVLTree.findMin(AVLTree.Root);
+				if(oldest!= null) {
+					System.out.println("Oldest Order: (OrderID) "+ oldest.orderID +" (Name) "+oldest.name);
+				}else {
+					System.out.println("Tree is empty.");
+				}
+				break;
+				
+			case 6:
+				AVLTree.Node latest = AVLTree.findMax(AVLTree.Root);
+				if(latest!= null) {
+					System.out.println("Latest Order: (OrderID) "+ latest.orderID +" (Name) "+latest.name);
+				}else {
+					System.out.println("Tree is empty.");
+				}
+				break;
+				
+			case 7:
+				System.out.println("Program terminated.");
+				System.exit(0);
+				break;
+				
+			default:
+				System.out.println("Please pick a valid choice.");
+				break;
+				}
+			System.out.println();
+			System.out.println("The number of node in the Tree is "+AVLTree.getNodeCount()+".");
+			System.out.println("The height of the AVL Tree is "+ AVLTree.getHeightTree()+".");
+			}
+		}
+	
+	private static void printChoices() {
+		System.out.print("\n1. Add Order");
+		System.out.print("\n2. Remove Order");
+		System.out.print("\n3. Print Orders By Ascending OrderID Number (In-Order Traversal)");
+		System.out.print("\n4. Find Name of Book by OrderID");
+		System.out.print("\n5. Find Oldest Book Order");
+		System.out.print("\n6. Find Latest Book Order");
+		System.out.println("\n7. Exit");
+
 	}
 	
-	if(node == null) {
-		return node;
-	}
-	
-	updateHeight(node);
-	return balanceTree(node);
-	
-	}
-	
-	public void remove(int orderID) {
-		Root = remove(Root,orderID);
-	}
-	
-	public int getHeightTree() {
-		return height(Root);
+	private static boolean isInt(String str) {
+	    try {
+	    	if(Integer.parseInt(str) > 0 &&  Integer.parseInt(str) <= 1000) {
+	        Integer.parseInt(str);
+	        return true;
+	    	}
+	    	else {
+	    		return false;
+	    	}
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
 	}
 
-	 public int getNodeCount(Node node) {
-	        if (node == null) {
-	        	return 0;
-	        }
-	        return 1 + getNodeCount(node.left) + getNodeCount(node.right);
-	 }
-	 
-	 public int getNodeCount() {
-		 return getNodeCount(Root);
-	 }
-	 	 }
-	
-
+}
