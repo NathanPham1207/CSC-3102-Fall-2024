@@ -1,0 +1,14 @@
+Implementation outside of what was asked of:
+
+Added an Exit Choice and a Print statement for it.
+Added a Welcome Statement.
+Added print statements for Insertion/Deletion.
+
+Error Exception handling for if the user inputs a nonvalid input. 
+Error Exception handling for if the user inputs an invalid OrderID for action 1. (Can't be a number below 0 and above 1000).
+Book Name limit of 100 characters and can't be 0 or below.
+Removal Exception handling- Added a limit for the OrderID.
+Search Exception handling- Added a limit for OrderID.
+
+MUST ADD : SPREEDSHEET NULL- IF THE ORDER NUMBER IS TOO BIG OR IF THE NAME IS NULL.
+
