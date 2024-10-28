@@ -161,8 +161,12 @@ public class AVLTree {
 	public Node findMin(Node node) {
 		Node current = node;
 		// Loop down to find the leftmost leaf
-		while(current.left != null) {
-			current = current.left;
+		try {
+			while(current.left != null) {
+				current = current.left;
+			}
+		}catch(Exception e) {
+			System.out.println("Your AVL Tree is null.");
 		}
 		return current;
 	}
@@ -171,8 +175,12 @@ public class AVLTree {
 	public Node findMax(Node node) {
 		Node current = node;
 		// Loop down to find the rightmost leaf
-		while(current.right != null) {
-			current = current.right;
+		try {
+			while(current.right != null) {
+				current = current.right;
+			}
+		}catch(Exception e) {
+			System.out.println("Your AVL Tree is null.");
 		}
 		return current;
 	}
