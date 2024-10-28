@@ -19,20 +19,27 @@ public class bookOrder {
 		Scanner scanner = new Scanner(System.in);
 		
 		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("WELCOME to your bookstore program!! Your AVL Tree was created from your orders.csv file. \nIf an order ID is over 10000 and/or the name is blank, it was not added. What would you like to do?: ");
+		
+		
 		try {
 			reader = new BufferedReader(new FileReader(excelSheet));
 			while((line = reader.readLine()) != null){
 				String[] row = line.split(",");
-				
 				try {
 					int orderID = Integer.parseInt(row[0]);
 					String name = row[1];
+					if(isValid(Integer.toString(orderID))== false || name.equals(null)) {
+					}
 					AVLTree.insert(orderID,name);
 					}
-				catch(Exception e) {}
+				catch(Exception e) {
+					}
 				}
 			
 		}catch (Exception e) {
+			
 			e.printStackTrace();
 		}
 		finally {
@@ -43,67 +50,80 @@ public class bookOrder {
 			}
 		}
 		
+		if(AVLTree.Root == null) {
+			System.out.println("\nYou don't have anything in your order.csv, your AVLTree is null.");
+		}
 		
-		while(true) {	
-			System.out.println("WELCOME to your bookstore program!! Your AVLTree is created from your orders.csv file. ");
+		
+		while(true) {
+			printChoices();
+			int input= 0;
 			
-			while(true) {
-				printChoices();
-				System.out.println("What would you like to do?: ");
-				int input= 0;
-				
-				boolean isInt = false;
-				
-				while(isInt == false){
-					if(scanner.hasNextInt()){
-						input = scanner.nextInt();
-						isInt = true;
-					}
-					else {
-					scanner.next();
-					break;
-					}
-				}		
-				
-				
-				switch(input) {
-				case 1:
-					System.out.println("What is the OrderID? (Can't be a number below 0 or above 1000)");
-					String number = scanner.next();
-					if(isInt(number) == true) {
-						scanner.nextLine();
-						System.out.println("What is the Name of the Book? (100 character limit)");
-						String title = scanner.nextLine();
-						if(title.length()<=100 && title.length()>0) {
-							AVLTree.insert(Integer.parseInt(number), title);
-							System.out.println("Action Completed.");
-						}else {
-							System.out.println("Invalid Character Count.");
-						}
+			boolean isInt = false;
+			
+			while(isInt == false){
+				if(scanner.hasNextInt()){
+					input = scanner.nextInt();
+					isInt = true;
+				}
+				else {
+				scanner.next();
+				break;
+				}
+			}		
+			
+			
+			switch(input) {
+			case 1:
+				System.out.println("What is the OrderID? (Can't be a number below 0 or above 10000)");
+				String number = scanner.next();
+				if(isValid(number) == true) {
+					scanner.nextLine();
+					System.out.println("What is the Name of the Book? (100 character limit)");
+					String title = scanner.nextLine();
+					if(title.length()<=100 && title.length()>0) {
+						AVLTree.insert(Integer.parseInt(number), title);
+						System.out.println("Action Completed.");
 					}else {
-						System.out.println("OrderID is not valid.");
+						System.out.println("Invalid Character Count.");
 					}
-					break;
-					
-				case 2:
-					System.out.println("Enter OrderID to remove: (Can't be a number below 0 or above 1000)");
+				}else {
+					System.out.println("OrderID is not valid.");
+				}
+				break;
+				
+			case 2:
+				if(AVLTree.Root == null) {
+					System.out.println("Your AVL Tree is null. There is nothing to remove.");
+				}else {
+					System.out.println("Enter OrderID to remove: (Can't be a number below 0 or above 10000)");
 					String removeID = scanner.next();
-					if(isInt(removeID) == true) {
+					if(isValid(removeID) == true) {
 						AVLTree.remove(Integer.parseInt(removeID));
 						System.out.println("Action Completed.");
 					}else {
 						System.out.println("OrderID is not valid.");
 					}
-						break;
-				
-				case 3:
-					AVLTree.InOrder();
+				}
 					break;
-					
-				case 4:
-					System.out.println("Enter OrderID to search: (Can't be a number below 0 or above 1000)");
+			
+			case 3:
+				if(AVLTree.Root == null) {
+					System.out.println("Your AVL Tree is null. There is nothing to print.");
+				}
+				else {
+					System.out.println("Printing your orders:");
+					AVLTree.InOrder();
+				}
+				break;
+				
+			case 4:
+				if(AVLTree.Root == null) {
+					System.out.println("Your AVL Tree is null. There is nothing to search.");
+				}else {
+					System.out.println("Enter OrderID to search: (Can't be a number below 0 or above 10000)");
 					String searchID = scanner.next();
-					if(isInt(searchID) == true) {	
+					if(isValid(searchID) == true) {	
 						AVLTree.Node node= AVLTree.search(AVLTree.Root, Integer.parseInt(searchID));
 						if(node == null) {
 							System.out.println("Order was not found.");
@@ -113,66 +133,63 @@ public class bookOrder {
 					}else {
 						System.out.println("OrderID is not valid.");
 					}
-					break;
-					
-				case 5:
-					AVLTree.Node oldest = AVLTree.findMin(AVLTree.Root);
-					if(oldest!= null) {
-						System.out.println("Oldest Order: (OrderID) "+ oldest.orderID +" (Name) "+oldest.name);
-					}else {
-						System.out.println("Tree is empty.");
-					}
-					break;
-					
-				case 6:
-					AVLTree.Node latest = AVLTree.findMax(AVLTree.Root);
-					if(latest!= null) {
-						System.out.println("Latest Order: (OrderID) "+ latest.orderID +" (Name) "+latest.name);
-					}else {
-						System.out.println("Tree is empty.");
-					}
-					break;
-					
-				case 7:
-					System.out.println("Program terminated.");
-					scanner.close();
-					System.exit(0);
-					break;
-					
-				default:
-					System.out.println("Please pick a valid choice.");
-					break;
-					}
-				System.out.println();
-				System.out.println("The number of node in the Tree is "+AVLTree.getNodeCount()+".");
-				System.out.println("The height of the AVL Tree is "+ AVLTree.getHeightTree()+".");
 				}
+				break;
+				
+			case 5:
+				AVLTree.Node oldest = AVLTree.findMin(AVLTree.Root);
+				if(oldest!= null) {
+					System.out.println("Oldest Order: (OrderID) "+ oldest.orderID +" (Name) "+oldest.name);
+				}
+				break;
+				
+			case 6:
+				AVLTree.Node latest = AVLTree.findMax(AVLTree.Root);
+				if(latest!= null) {
+					System.out.println("Latest Order: (OrderID) "+ latest.orderID +" (Name) "+latest.name);
+				}
+				break;
+				
+			case 7:
+				System.out.println("Program terminated.");
+				System.exit(0);
+				break;
+				
+			default:
+				System.out.println("Please pick a valid choice.");
+				break;
+				}
+			System.out.println();
+			System.out.println("The number of node in the Tree is "+AVLTree.getNodeCount()+".");
+			System.out.println("The height of the AVL Tree is "+ AVLTree.getHeightTree()+".");
 			}
 		}
-		
-		private static void printChoices() {
-			System.out.print("\n1. Add Order");
-			System.out.print("\n2. Remove Order");
-			System.out.print("\n3. Print Orders By Ascending OrderID Number (In-Order Traversal)");
-			System.out.print("\n4. Find Name of Book by OrderID");
-			System.out.print("\n5. Find Oldest Book Order");
-			System.out.print("\n6. Find Latest Book Order");
-			System.out.println("\n7. Exit");
+	
+	private static void printChoices() {
+		System.out.print("\n1. Add Order");
+		System.out.print("\n2. Remove Order");
+		System.out.print("\n3. Print Orders By Ascending OrderID Number (In-Order Traversal)");
+		System.out.print("\n4. Find Name of Book by OrderID");
+		System.out.print("\n5. Find Oldest Book Order");
+		System.out.print("\n6. Find Latest Book Order");
+		System.out.println("\n7. Exit");
 
-		}
-		
-		private static boolean isInt(String str) {
-		    try {
-		    	if(Integer.parseInt(str) > 0 &&  Integer.parseInt(str) <= 1000) {
-		        Integer.parseInt(str);
-		        return true;
-		    	}
-		    	else {
-		    		return false;
-		    	}
-		    } catch (NumberFormatException e) {
-		        return false;
-		    }
-		}
-
+	}
+	
+	private static boolean isValid(String str) {
+	    try {
+	    	if(Integer.parseInt(str) > 0 &&  Integer.parseInt(str) <= 10000) {
+	        Integer.parseInt(str);
+	        return true;
+	    	}
+	    	else {
+	    		return false;
+	    	}
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
+	}
+	
+	
 }
+
