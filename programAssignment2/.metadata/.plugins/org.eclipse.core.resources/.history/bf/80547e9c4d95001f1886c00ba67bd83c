@@ -45,11 +45,10 @@ public class bookOrder {
 		
 		
 		while(true) {	
-			System.out.println("WELCOME to your bookstore program!! Your AVLTree is created from your orders.csv file. ");
+			System.out.println("WELCOME to your bookstore program!! Your AVLTree is created from your orders.csv file. What would you like to do?: ");
 			
 			while(true) {
 				printChoices();
-				System.out.println("What would you like to do?: ");
 				int input= 0;
 				
 				boolean isInt = false;
