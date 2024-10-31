@@ -3,8 +3,9 @@ Implementation outside of what was asked of:
 Added an Exit Choice and a Print statement for it.
 Added a Welcome Statement.
 Added print statements for Insertion/Deletion.
-Added a print statements to say if your AVL Tree is null.
-Added a print statement that orders will not added if OrderID>10000 and/or Name was null
+Added a print statement to say if your AVL Tree is null.
+Added a print statement that orders will not added if OrderID>10000 and/or Name was null.
+Added print statements to explain errors with importing from the order.csv file. 
 
 
 Error Exception handling for if the user inputs a nonvalid input. 
