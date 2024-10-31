@@ -120,7 +120,7 @@ public class AVLTree {
 	       else if(orderID > root.orderID){
 			root.right = insert(root.right,orderID,name);
 		}else {
-			System.out.println("OrderID alredy exists.");
+			System.out.println("OrderID " + orderID + " already exists.");
 			return root;
 		}
 		updateHeight(root);
