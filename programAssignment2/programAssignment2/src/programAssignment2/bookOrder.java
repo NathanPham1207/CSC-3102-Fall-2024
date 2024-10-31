@@ -16,30 +16,34 @@ public class bookOrder {
 		BufferedReader reader = null;
 		AVLTree AVLTree = new AVLTree();
 		
-		Scanner scanner = new Scanner(System.in);
+	
 		
-		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("WELCOME to your bookstore program!! Your AVL Tree was created from your orders.csv file. \nIf an order ID is over 10000 and/or the name is blank, it was not added. What would you like to do?: ");
+		System.out.println("WELCOME to your bookstore program!! Your AVL Tree will be created from your orders.csv file. "
+				+ "\nIf an order ID is below 1, over 10000, already used, blank, and/or is a string, it will not be added."
+				+ "\nAny errors while importing will be listed below.\n");
 		
 		
 		try {
 			reader = new BufferedReader(new FileReader(excelSheet));
 			while((line = reader.readLine()) != null){
 				String[] row = line.split(",");
+				lineNumber++;
+				
 				try {
 					int orderID = Integer.parseInt(row[0]);
 					String name = row[1];
-					if(isValid(Integer.toString(orderID))== false || name.equals(null)) {
-					}
 					AVLTree.insert(orderID,name);
 					}
 				catch(Exception e) {
+				if(!(row[0].toUpperCase().equals("ORDERID") && row[1].toUpperCase().equals("NAME"))) {
+					System.out.println("Line " + lineNumber + " from orders.csv isn't formatted correctly.");
+					
 					}
+				}
 				}
 			
 		}catch (Exception e) {
-			
 			e.printStackTrace();
 		}
 		finally {
@@ -166,6 +170,7 @@ public class bookOrder {
 		}
 	
 	private static void printChoices() {
+		System.out.print("\nWhat would you like to do?: ");
 		System.out.print("\n1. Add Order");
 		System.out.print("\n2. Remove Order");
 		System.out.print("\n3. Print Orders By Ascending OrderID Number (In-Order Traversal)");
@@ -189,6 +194,10 @@ public class bookOrder {
 	        return false;
 	    }
 	}
+	
+	
+}
+
 	
 	
 }
