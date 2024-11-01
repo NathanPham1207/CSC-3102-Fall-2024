@@ -1,7 +1,5 @@
 package programAssignment2;
-
-
-
+import java.util.ArrayList;
 
 public class AVLTree {
 	//Node structure
@@ -34,7 +32,7 @@ public class AVLTree {
 	}
 	
 	//update height of the node
-	public int updateHeight(Node node) {
+	private int updateHeight(Node node) {
 		if (node == null) {
 			return -1;	
 		}
@@ -120,7 +118,7 @@ public class AVLTree {
 	       else if(orderID > root.orderID){
 			root.right = insert(root.right,orderID,name);
 		}else {
-			System.out.println("OrderID alredy exists.");
+			System.out.println("OrderID " + orderID + " already exists.");
 			return root;
 		}
 		updateHeight(root);
@@ -132,7 +130,7 @@ public class AVLTree {
 	}
 	
 	//An in-order traversal of the AVL tree prints the orders in ascending order by their order IDs
-	 public void InOrder(Node root){
+	 private void InOrder(Node root){
 	        if(root == null){
 	            return;
 	        }
@@ -161,8 +159,12 @@ public class AVLTree {
 	public Node findMin(Node node) {
 		Node current = node;
 		// Loop down to find the leftmost leaf
-		while(current.left != null) {
-			current = current.left;
+		try {
+			while(current.left != null) {
+				current = current.left;
+			}
+		}catch(Exception e) {
+			System.out.println("Your AVL Tree is null.");
 		}
 		return current;
 	}
@@ -171,8 +173,12 @@ public class AVLTree {
 	public Node findMax(Node node) {
 		Node current = node;
 		// Loop down to find the rightmost leaf
-		while(current.right != null) {
-			current = current.right;
+		try {
+			while(current.right != null) {
+				current = current.right;
+			}
+		}catch(Exception e) {
+			System.out.println("Your AVL Tree is null.");
 		}
 		return current;
 	}
@@ -233,6 +239,32 @@ public class AVLTree {
 		return balanceTree(node);
 		
 		}
+	
+	private ArrayList<Node> searchByTitle(Node node, String name, ArrayList<Node> books) {
+		if(node == null) { 
+			return books;
+		}
+		if(node.name.equals(name)){
+			books.add(node);
+			}
+		
+		searchByTitle(node.left,name,books);
+		searchByTitle(node.right,name,books);
+		
+		return books;
+		}
+	
+	public void searchByTitle(String name) {
+		ArrayList<Node> found = searchByTitle(Root,name, new ArrayList<>());
+		if (!found.isEmpty()) {
+            System.out.println("\nOrderID found for book \"" + name + "\":");
+            for (int i = 0; i< found.size(); i++) {
+                System.out.println("OrderIDs: " + found.get(i).orderID);
+            }
+        } else {
+            System.out.println("No orders were found.");
+        }
+	}
 		
 		public void remove(int orderID) {
 			Root = remove(Root,orderID);
