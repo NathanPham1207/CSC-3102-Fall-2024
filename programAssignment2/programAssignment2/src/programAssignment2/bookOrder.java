@@ -32,14 +32,20 @@ public class BookOrder {
 				try {
 					int orderID = Integer.parseInt(row[0]);
 					String name = row[1];
-					if(name.length()<=100 && name.length()>0) {
+					if(name.length()<=50 && name.length()>0) {
 						AVLTree.insert(orderID,name);
+						}
+					else {
+						System.out.println("Line " + lineNumber + " from orders.csv isn't formatted correctly.");
 						}
 					}
 				catch(Exception e) {
-				if(!(row[0].toUpperCase().equals("ORDERID") && row[1].toUpperCase().equals("NAME"))) {
-					System.out.println("Line " + lineNumber + " from orders.csv isn't formatted correctly.");
-					
+					try {	
+					if(!(row[0].toUpperCase().equals("ORDERID") && row[1].toUpperCase().equals("NAME"))) {
+						System.out.println("Line " + lineNumber + " from orders.csv isn't formatted correctly.");
+						}
+					}catch(Exception exception) {
+						System.out.println("Line " + lineNumber +" is blank.");
 					}
 				}
 				}
@@ -265,8 +271,4 @@ public class BookOrder {
 	
 }
 
-
-	
-	
-}
 
