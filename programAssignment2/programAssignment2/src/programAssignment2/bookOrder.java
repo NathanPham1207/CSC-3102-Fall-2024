@@ -7,22 +7,21 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-public class bookOrder {
+public class BookOrder {
 
 	public static void main(String [] args) throws FileNotFoundException {
 		
-		String excelSheet = "src\\orders.csv";
+		String excelSheet = "src//orders.csv";
 		String line = "";
 		BufferedReader reader = null;
 		AVLTree AVLTree = new AVLTree();
-		
-	
+		int lineNumber = 0;
 		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("WELCOME to your bookstore program!! Your AVL Tree will be created from your orders.csv file. "
 				+ "\nIf an order ID is below 1, over 10000, already used, blank, and/or is a string, it will not be added."
+				+ "\nIf the name of the order is above 100 characters or blank, it will also not be added."
 				+ "\nAny errors while importing will be listed below.\n");
-		
 		
 		try {
 			reader = new BufferedReader(new FileReader(excelSheet));
@@ -33,7 +32,9 @@ public class bookOrder {
 				try {
 					int orderID = Integer.parseInt(row[0]);
 					String name = row[1];
-					AVLTree.insert(orderID,name);
+					if(name.length()<=100 && name.length()>0) {
+						AVLTree.insert(orderID,name);
+						}
 					}
 				catch(Exception e) {
 				if(!(row[0].toUpperCase().equals("ORDERID") && row[1].toUpperCase().equals("NAME"))) {
@@ -48,14 +49,20 @@ public class bookOrder {
 		}
 		finally {
 			try {
-				reader.close();
+				// Checking if the order.cvs is imported into the src folder.
+				if(reader != null) {
+					reader.close();
+				}else {}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
+		
+		
 		if(AVLTree.Root == null) {
-			System.out.println("\nYou don't have anything in your order.csv, your AVLTree is null.");
+			System.out.println("Your order.cvs was not imported and/or formatted incorrectly"
+					+ ". Your AVL Tree is null.");
 		}
 		
 		
@@ -79,11 +86,11 @@ public class bookOrder {
 			
 			switch(input) {
 			case 1:
-				System.out.println("What is the OrderID? (Can't be a number below 0 or above 10000)");
+				System.out.println("What is the OrderID? (Can't be a number below 1 or above 10000)");
 				String number = scanner.next();
 				if(isValid(number) == true) {
 					scanner.nextLine();
-					System.out.println("What is the Name of the Book? (100 character limit)");
+					System.out.println("What is the Title of the Book? (100 character limit)");
 					String title = scanner.nextLine();
 					if(title.length()<=100 && title.length()>0) {
 						AVLTree.insert(Integer.parseInt(number), title);
@@ -100,7 +107,7 @@ public class bookOrder {
 				if(AVLTree.Root == null) {
 					System.out.println("Your AVL Tree is null. There is nothing to remove.");
 				}else {
-					System.out.println("Enter OrderID to remove: (Can't be a number below 0 or above 10000)");
+					System.out.println("Enter OrderID to remove: (Can't be a number below 1 or above 10000)");
 					String removeID = scanner.next();
 					if(isValid(removeID) == true) {
 						AVLTree.remove(Integer.parseInt(removeID));
@@ -113,10 +120,10 @@ public class bookOrder {
 			
 			case 3:
 				if(AVLTree.Root == null) {
-					System.out.println("Your AVL Tree is null. There is nothing to print.");
+					System.out.println("\nYour AVL Tree is null. There is nothing to print.");
 				}
 				else {
-					System.out.println("Printing your orders:");
+					System.out.println("\nPrinting your orders:");
 					AVLTree.InOrder();
 				}
 				break;
@@ -125,7 +132,7 @@ public class bookOrder {
 				if(AVLTree.Root == null) {
 					System.out.println("Your AVL Tree is null. There is nothing to search.");
 				}else {
-					System.out.println("Enter OrderID to search: (Can't be a number below 0 or above 10000)");
+					System.out.println("Enter OrderID to search: (Can't be a number below 1 or above 10000)");
 					String searchID = scanner.next();
 					if(isValid(searchID) == true) {	
 						AVLTree.Node node= AVLTree.search(AVLTree.Root, Integer.parseInt(searchID));
@@ -155,6 +162,63 @@ public class bookOrder {
 				break;
 				
 			case 7:
+				if(AVLTree.Root == null) {
+					System.out.println("\nYour AVL Tree is null. There is nothing to update.");
+				}else {
+					System.out.println("\nWhich orderID would you like to update the title for? (Can't be a number below 0 or above 10000)");
+					String orderID = scanner.next();
+					if(isValid(orderID) == true) {	
+						AVLTree.Node found = AVLTree.search(AVLTree.Root,Integer.parseInt(orderID));
+						if(found == null) {
+							System.out.println("Order was not found.");
+						}else {
+						System.out.println("What title would you like to have? (100 character limit)");
+						String name = scanner.next();
+						if(name.length()<=100 && name.length()>0) {
+						found.name = name;
+						System.out.println("\nOrder "+ orderID +"'s title has been changed to \""+ name+ "\".");
+						}else {
+							System.out.println("Invalid Character Count.");
+						}
+					}
+					}else {
+						System.out.println("OrderID is not valid.");
+					}
+				}
+				break;
+				
+			case 8:
+				if(AVLTree.Root != null) {
+					System.out.println("What title do you want to search by? (100 character limit)");
+					String title = scanner.next();
+					AVLTree.searchByTitle(title);
+				}
+				else {
+					System.out.println("Your AVL Tree is null. There is nothing to search.");
+				}
+				break;
+				
+			case 9:
+				int count;
+				count = AVLTree.getNodeCount();
+				try {
+					while(count != 0) {
+						AVLTree.remove(AVLTree.Root.orderID);
+						System.out.println("Deleted node with OrderID: " + AVLTree.Root.orderID + ", Book Name: " + AVLTree.Root.name);
+						count = AVLTree.getNodeCount();
+					}	
+					if(count == 0 ) {
+						System.out.println("Your AVL Tree is null. There is nothing to delete.");
+					}
+
+				}
+				catch(NullPointerException e) {
+					System.out.println("\nDeletion successful.");
+				}
+				break;
+				
+				
+			case 10:
 				System.out.println("Program terminated.");
 				System.exit(0);
 				break;
@@ -177,7 +241,10 @@ public class bookOrder {
 		System.out.print("\n4. Find Name of Book by OrderID");
 		System.out.print("\n5. Find Oldest Book Order");
 		System.out.print("\n6. Find Latest Book Order");
-		System.out.println("\n7. Exit");
+		System.out.print("\n7. Update The Name Of An Order");
+		System.out.print("\n8. Search Orders By Title");
+		System.out.print("\n9. Delete Your Tree");
+		System.out.print("\n10. Exit \n");
 
 	}
 	
@@ -197,6 +264,7 @@ public class bookOrder {
 	
 	
 }
+
 
 	
 	
