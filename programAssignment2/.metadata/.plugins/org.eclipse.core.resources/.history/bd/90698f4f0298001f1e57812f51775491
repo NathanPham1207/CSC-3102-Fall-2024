@@ -200,7 +200,7 @@ public class AVLTree {
 					temp = node.left;
 				}else {
 					temp = node.right;
-					//System.out.println("OrderID is not valid.");
+					System.out.println("OrderID is not valid.");
 				}
 				// No child case
 				if(temp == null) {

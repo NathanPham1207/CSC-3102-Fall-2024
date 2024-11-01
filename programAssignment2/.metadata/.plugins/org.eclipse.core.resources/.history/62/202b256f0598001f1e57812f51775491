@@ -11,7 +11,7 @@ public class bookOrder {
 
 	public static void main(String [] args) throws FileNotFoundException {
 		
-		String excelSheet = "src\\orders.csv";
+		String excelSheet = "orders.csv";
 		String line = "";
 		BufferedReader reader = null;
 		AVLTree AVLTree = new AVLTree();

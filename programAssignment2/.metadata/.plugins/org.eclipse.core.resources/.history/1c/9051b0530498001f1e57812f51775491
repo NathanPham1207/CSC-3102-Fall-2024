@@ -147,9 +147,11 @@ public class bookOrder {
 							System.out.println("Deleted node with OrderID: " + AVLTree.Root.orderID + ", Book Name: " + AVLTree.Root.name);
 							count = AVLTree.getNodeCount();
 						}	
-
+						if (count == 0) {
+							throw new IOException("Tree is empty");
+						}
 					}
-					catch(NullPointerException e) {
+					catch(IOException e) {
 						System.err.print("Delete successfully");
 					}
 

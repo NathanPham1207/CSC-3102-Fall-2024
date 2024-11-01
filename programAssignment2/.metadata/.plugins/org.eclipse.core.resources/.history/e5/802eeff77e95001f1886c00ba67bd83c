@@ -68,11 +68,11 @@ public class bookOrder {
 				
 				switch(input) {
 				case 1:
-					System.out.println("What is the OrderID? (Can't be a number below 0 or above 1000)");
+					System.out.println("What is the OrderID? (Can't be a number below 0 or above 1000) \n");
 					String number = scanner.next();
 					if(isInt(number) == true) {
 						scanner.nextLine();
-						System.out.println("What is the Name of the Book? (100 character limit)");
+						System.out.println("What is the Name of the Book? (100 character limit) \n");
 						String title = scanner.nextLine();
 						if(title.length()<=100 && title.length()>0) {
 							AVLTree.insert(Integer.parseInt(number), title);
@@ -101,7 +101,7 @@ public class bookOrder {
 					break;
 					
 				case 4:
-					System.out.println("Enter OrderID to search: (Can't be a number below 0 or above 1000)");
+					System.out.println("Enter OrderID to search: (Can't be a number below 0 or above 1000) \n");
 					String searchID = scanner.next();
 					if(isInt(searchID) == true) {	
 						AVLTree.Node node= AVLTree.search(AVLTree.Root, Integer.parseInt(searchID));
@@ -138,21 +138,7 @@ public class bookOrder {
 					scanner.close();
 					System.exit(0);
 					break;
-				case 8:
-					int count;
-					count = AVLTree.getNodeCount();
-					try {
-						while(count != 0) {
-							AVLTree.remove(AVLTree.Root.orderID);
-							System.out.println("Deleted node with OrderID: " + AVLTree.Root.orderID + ", Book Name: " + AVLTree.Root.name);
-							count = AVLTree.getNodeCount();
-						}	
-
-					}
-					catch(NullPointerException e) {
-						System.err.print("Delete successfully");
-					}
-
+					
 				default:
 					System.out.println("Please pick a valid choice.");
 					break;
@@ -172,7 +158,6 @@ public class bookOrder {
 			System.out.print("\n5. Find Oldest Book Order");
 			System.out.print("\n6. Find Latest Book Order");
 			System.out.println("\n7. Exit");
-			System.out.println("\n8. Delete whole AVL tree");
 
 		}
 		

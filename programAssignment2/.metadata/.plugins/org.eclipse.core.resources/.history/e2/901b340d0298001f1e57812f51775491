@@ -141,18 +141,11 @@ public class bookOrder {
 				case 8:
 					int count;
 					count = AVLTree.getNodeCount();
-					try {
-						while(count != 0) {
-							AVLTree.remove(AVLTree.Root.orderID);
-							System.out.println("Deleted node with OrderID: " + AVLTree.Root.orderID + ", Book Name: " + AVLTree.Root.name);
-							count = AVLTree.getNodeCount();
-						}	
-
+					while(count != 0) {
+						AVLTree.Node exist = AVLTree.findMin(AVLTree.Root);
+						AVLTree.remove(exist.orderID);
+						System.out.println("Deleted node with OrderID: " + exist.orderID + ", Book Name: " + exist.name);
 					}
-					catch(NullPointerException e) {
-						System.err.print("Delete successfully");
-					}
-
 				default:
 					System.out.println("Please pick a valid choice.");
 					break;

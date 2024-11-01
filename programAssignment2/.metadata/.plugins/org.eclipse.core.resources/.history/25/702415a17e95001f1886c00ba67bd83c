@@ -138,21 +138,7 @@ public class bookOrder {
 					scanner.close();
 					System.exit(0);
 					break;
-				case 8:
-					int count;
-					count = AVLTree.getNodeCount();
-					try {
-						while(count != 0) {
-							AVLTree.remove(AVLTree.Root.orderID);
-							System.out.println("Deleted node with OrderID: " + AVLTree.Root.orderID + ", Book Name: " + AVLTree.Root.name);
-							count = AVLTree.getNodeCount();
-						}	
-
-					}
-					catch(NullPointerException e) {
-						System.err.print("Delete successfully");
-					}
-
+					
 				default:
 					System.out.println("Please pick a valid choice.");
 					break;
@@ -172,7 +158,6 @@ public class bookOrder {
 			System.out.print("\n5. Find Oldest Book Order");
 			System.out.print("\n6. Find Latest Book Order");
 			System.out.println("\n7. Exit");
-			System.out.println("\n8. Delete whole AVL tree");
 
 		}
 		
