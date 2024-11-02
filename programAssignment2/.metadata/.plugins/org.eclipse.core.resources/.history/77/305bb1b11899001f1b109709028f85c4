@@ -195,7 +195,6 @@ public class bookOrder {
 			case 8:
 				if(AVLTree.Root != null) {
 					System.out.println("What title do you want to search by? (100 character limit)");
-					scanner.nextLine();
 					String title = scanner.nextLine();
 					AVLTree.searchByTitle(title);
 				}

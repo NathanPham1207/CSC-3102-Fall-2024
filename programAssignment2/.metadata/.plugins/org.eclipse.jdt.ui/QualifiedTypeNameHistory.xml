@@ -4,4 +4,5 @@
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="java.io.BufferedReader"/>
     <fullyQualifiedTypeName name="java.io.FileReader"/>
+    <fullyQualifiedTypeName name="programAssignment2.AVLTree.Node"/>
 </qualifiedTypeNameHistroy>

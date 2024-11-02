@@ -1,4 +1,3 @@
-
 package programAssignment2;
 import java.util.ArrayList;
 
@@ -207,7 +206,7 @@ public class AVLTree {
 					temp = node.left;
 				}else {
 					temp = node.right;
-					System.out.println("OrderID is not valid.");
+					//System.out.println("OrderID is not valid.");
 				}
 				// No child case
 				if(temp == null) {
@@ -245,7 +244,7 @@ public class AVLTree {
 		if(node == null) { 
 			return books;
 		}
-		if(node.name.toLowerCase().equals(name.toLowerCase())){
+		if(node.name.equals(name)){
 			books.add(node);
 			}
 		

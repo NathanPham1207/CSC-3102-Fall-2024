@@ -245,7 +245,7 @@ public class AVLTree {
 		if(node == null) { 
 			return books;
 		}
-		if(node.name.toLowerCase().equals(name.toLowerCase())){
+		if(node.name.equals(name)){
 			books.add(node);
 			}
 		

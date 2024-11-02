@@ -242,6 +242,7 @@ public class AVLTree {
 		}
 	
 	private ArrayList<Node> searchByTitle(Node node, String name, ArrayList<Node> books) {
+		
 		if(node == null) { 
 			return books;
 		}

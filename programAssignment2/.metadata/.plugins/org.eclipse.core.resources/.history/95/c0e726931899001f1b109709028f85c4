@@ -90,7 +90,7 @@ public class bookOrder {
 			
 			switch(input) {
 			case 1:
-				System.out.println("What is the OrderID? (From 1 to 10000)");
+				System.out.println("What is the OrderID? (Can't be a number below 1 or above 10000)");
 				String number = scanner.next();
 				if(isValid(number) == true) {
 					scanner.nextLine();
@@ -111,7 +111,7 @@ public class bookOrder {
 				if(AVLTree.Root == null) {
 					System.out.println("Your AVL Tree is null. There is nothing to remove.");
 				}else {
-					System.out.println("Enter OrderID to remove: (From 1 to 10000)");
+					System.out.println("Enter OrderID to remove: (Can't be a number below 1 or above 10000)");
 					String removeID = scanner.next();
 					if(isValid(removeID) == true) {
 						AVLTree.remove(Integer.parseInt(removeID));
@@ -136,7 +136,7 @@ public class bookOrder {
 				if(AVLTree.Root == null) {
 					System.out.println("Your AVL Tree is null. There is nothing to search.");
 				}else {
-					System.out.println("Enter OrderID to search: (From 1 to 10000)");
+					System.out.println("Enter OrderID to search: (Can't be a number below 1 or above 10000)");
 					String searchID = scanner.next();
 					if(isValid(searchID) == true) {	
 						AVLTree.Node node= AVLTree.search(AVLTree.Root, Integer.parseInt(searchID));
@@ -169,7 +169,7 @@ public class bookOrder {
 				if(AVLTree.Root == null) {
 					System.out.println("\nYour AVL Tree is null. There is nothing to update.");
 				}else {
-					System.out.println("\nWhich orderID would you like to update the title for? (From 1 to 10000)");
+					System.out.println("\nWhich orderID would you like to update the title for? (Can't be a number below 0 or above 10000)");
 					String orderID = scanner.next();
 					if(isValid(orderID) == true) {	
 						AVLTree.Node found = AVLTree.search(AVLTree.Root,Integer.parseInt(orderID));
@@ -178,7 +178,7 @@ public class bookOrder {
 						}else {
 						scanner.nextLine();
 						System.out.println("What title would you like to have? (100 character limit)");
-						String name = scanner.nextLine();
+						String name = scanner.nextLine().toLowerCase();
 						if(name.length()<=100 && name.length()>0) {
 						found.name = name;
 						System.out.println("\nOrder "+ orderID +"'s title has been changed to \""+ name+ "\".");
@@ -195,8 +195,7 @@ public class bookOrder {
 			case 8:
 				if(AVLTree.Root != null) {
 					System.out.println("What title do you want to search by? (100 character limit)");
-					scanner.nextLine();
-					String title = scanner.nextLine();
+					String title = scanner.next();
 					AVLTree.searchByTitle(title);
 				}
 				else {
