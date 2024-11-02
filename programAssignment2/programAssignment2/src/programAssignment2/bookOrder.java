@@ -197,7 +197,11 @@ public class bookOrder {
 					System.out.println("What title do you want to search by? (100 character limit)");
 					scanner.nextLine();
 					String title = scanner.nextLine();
+					if(name.length()<=100 && name.length()>0) {
 					AVLTree.searchByTitle(title);
+					}else {
+							System.out.println("Invalid Character Count.");
+					}
 				}
 				else {
 					System.out.println("Your AVL Tree is null. There is nothing to search.");
