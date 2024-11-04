@@ -40,5 +40,3 @@ Error Handling & Formatting Constraints
   - Formatting Erros:
       - Blank lines in orders.csv will be skipped and will prompt an error message
       - Any incorrectly formatted line in orders.csv will prompt an error message
-      - An erros message w
-      - any line in the orders.csv file is incorrectly formatted, an error message will be shown for that line      - 
